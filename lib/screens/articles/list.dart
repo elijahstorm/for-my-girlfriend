@@ -115,7 +115,7 @@ class KoreanFoodScreenState extends State<KoreanFoodScreen> {
           children: [
 
             Container(
-              color: Color(0xFF90AF17),
+              // color: Color(0xFF90AF17),
               height: 66,
               child: Stack(
                 children: [
@@ -139,8 +139,8 @@ class KoreanFoodScreenState extends State<KoreanFoodScreen> {
                   ),
 
                   Positioned(
-                    top: 16,
-                    left: 16,
+                    top: 10,
+                    left: 10,
                     child: CloseButton(
                       onPressed: () => Navigator.of(context).pop(),
                     ),

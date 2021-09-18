@@ -1,7 +1,11 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'package:eunbeyol/online/views/recipe_view.dart';
 
 import 'data.dart';
 import 'article.dart';
@@ -38,14 +42,30 @@ class ArticleCard extends StatelessWidget {
     );
   }
 
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PressableCard(
       onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => article.navigateTo(),
-          fullscreenDialog: true,
-        ));
+        if (kIsWeb) {
+          _launchURL(article.cryptlink);
+          return;
+        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RecipeView(
+              postUrl: article.cryptlink,
+            ),
+          ),
+        );
       },
       borderRadius: const BorderRadius.all(Radius.circular(0)),
       upElevation: 7,

@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
-import 'package:eunbeyol/online/views/recipe_view.dart';
-
 // import 'page.dart';
 import 'data.dart';
 
@@ -63,12 +61,5 @@ class Article {
 
       // date: data['date'],
     );
-  }
-
-  RecipeView navigateTo() {
-    return RecipeView(
-      postUrl: cryptlink,
-    );
-    // return ArticleDisplayPage(this);
   }
 }

@@ -59,7 +59,7 @@ List<RecipeBundle> recipeBundles = [
     recipes: 43,
     title: '중국 맛집',
     description: '중국에서 유명한 음식 체인점을 돌아다녔습니다',
-    imageSrc: 'assets/images/food_court@2x.png',
+    imageSrc: 'assets/images/kisspng_chicken_tikka.png',
     color: Color(0xFF5B28C0),
     destination: ChineseFoodScreen.routeName,
   ),
