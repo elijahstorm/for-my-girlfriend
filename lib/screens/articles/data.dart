@@ -40,9 +40,9 @@ class ArticleData extends ChangeNotifier {
 
     jsonData['hits'].forEach((element) {
       innocentAdd(Article.json(element['recipe']));
-      
-      notifyListeners();
     });
+
+    notifyListeners();
   }
 }
 

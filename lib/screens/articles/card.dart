@@ -12,18 +12,21 @@ class ArticleCard extends StatelessWidget {
 
   final Article article;
 
-  Widget _buildDetails(BuildContext context, var recipes) {
+  Widget _buildDetails(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          article.date.substring(2, 10).replaceAll('-', ' / ') + '\n'
-          + 'by ' + article.author,
+          '${article.topic} food by ${article.author}',
         ),
         SizedBox(height: 16),
         Text(
           article.title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
         ),
         SizedBox(height: 8),
         Expanded(
@@ -37,60 +40,50 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    print('asghasg');
-
-    print(
-      article.toString()
-    );
-
-
-    return Consumer<ArticleData>(
-      builder: (context, recipes, child) {
-        return PressableCard(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => article.navigateTo(),
-              fullscreenDialog: true,
-            ));
-          },
-          borderRadius: const BorderRadius.all(Radius.circular(0)),
-          upElevation: 7,
-          downElevation: 3,
-          child: Container(
-            color: Colors.red,
-            height: 200,
-            padding: EdgeInsets.all(20),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width - 140,
-                  height: 160,
-                  padding: EdgeInsets.only(right: 10),
-                  child: _buildDetails(context, recipes),
-                ),
-                Semantics(
-                  label: 'Logo for ${article.title}',
+    return PressableCard(
+      onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => article.navigateTo(),
+          fullscreenDialog: true,
+        ));
+      },
+      borderRadius: const BorderRadius.all(Radius.circular(0)),
+      upElevation: 7,
+      downElevation: 3,
+      child: Container(
+        height: 200,
+        padding: EdgeInsets.all(20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width - 140,
+              height: 160,
+              padding: EdgeInsets.only(right: 10),
+              child: _buildDetails(context),
+            ),
+            Semantics(
+              label: 'Logo for ${article.title}',
+              child: Hero(
+                tag: article.images[0],
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
                   child: Container(
-                    height: 100,
-                    width: 100,
                     margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: article.headline_image(),
-                      ),
+                    child: Image.network(
+                      article.images[0],
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }
@@ -106,7 +99,6 @@ class ErrorCard extends StatelessWidget {
     padding: EdgeInsets.all(16),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
-      color: Colors.red,
     ),
     child: Stack(
       children: [
@@ -115,7 +107,6 @@ class ErrorCard extends StatelessWidget {
             err,
             style: TextStyle(
               color: Colors.white,
-              fontFamily: 'Helvetica',
               fontSize: 42,
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.bold,
@@ -186,7 +177,7 @@ class PressableCard extends StatefulWidget {
     this.downElevation = 0,
     this.shadowColor = Colors.grey,
     this.duration = const Duration(milliseconds: 100),
-    this.color = Colors.grey,
+    this.color = Colors.white,
     this.onPressed,
     Key? key,
   }) : super(key: key);
@@ -235,69 +226,6 @@ class _PressableCardState extends State<PressableCard> {
     child: ClipRRect(
           borderRadius: widget.borderRadius,
           child: widget.child,
-        ),
-      ),
-    );
-  }
-}
-
-class PressableCircle extends StatefulWidget {
-  const PressableCircle({
-    required this.child,
-    this.radius = 30,
-    this.upElevation = 2,
-    this.downElevation = 0,
-    this.shadowColor = Colors.black,
-    this.duration = const Duration(milliseconds: 100),
-    this.onPressed,
-    Key? key,
-  }) : super(key: key);
-
-  final VoidCallback? onPressed;
-
-  final Widget child;
-
-  final double radius;
-
-  final double upElevation;
-
-  final double downElevation;
-
-  final Color shadowColor;
-
-  final Duration duration;
-
-  @override
-  _PressableCircleState createState() => _PressableCircleState();
-}
-
-class _PressableCircleState extends State<PressableCircle> {
-  bool cardIsDown = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() => cardIsDown = false);
-        if (widget.onPressed != null) {
-          widget.onPressed!();
-        }
-      },
-      onTapDown: (details) => setState(() => cardIsDown = true),
-      onTapCancel: () => setState(() => cardIsDown = false),
-      child: AnimatedPhysicalModel(
-        elevation: cardIsDown ? widget.downElevation : widget.upElevation,
-        borderRadius: const BorderRadius.all(Radius.circular(9999)),
-        shape: BoxShape.rectangle,
-        shadowColor: widget.shadowColor,
-        duration: widget.duration,
-        color: Colors.grey,
-        child: Transform.scale(
-          scale: cardIsDown ? 0.95 : 1.0,
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            child: widget.child,
-          ),
         ),
       ),
     );

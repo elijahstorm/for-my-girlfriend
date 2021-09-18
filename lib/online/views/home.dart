@@ -18,7 +18,7 @@ class _SearchSreenState extends State<SearchSreen> {
   List<RecipeModel> recipies = [];
   String ingridients = '';
   bool _loading = false;
-  String query = "";
+  String query = '';
   TextEditingController textEditingController = new TextEditingController();
 
   @override
@@ -32,24 +32,33 @@ class _SearchSreenState extends State<SearchSreen> {
       body: Stack(
         children: <Widget>[
 
+          Positioned(
+            top: 16,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 100,
+              ),
+              child: Center(
+                child: Text(
+                  '요리법',
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(vertical: !kIsWeb ? Platform.isIOS? 60: 30 : 30, horizontal: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        '요리법',
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 16),
+                  
                   Container(
                     child: Row(
                       children: <Widget>[
@@ -86,11 +95,11 @@ class _SearchSreenState extends State<SearchSreen> {
                                 });
                                 recipies = [];
                                 String url =
-                                    "https://api.edamam.com/search?q=${textEditingController.text}&app_id=0f21d949&app_key=8bcdd93683d1186ba0555cb95e64ab26";
+                                    'https://api.edamam.com/search?q=${textEditingController.text}&app_id=0f21d949&app_key=8bcdd93683d1186ba0555cb95e64ab26';
                                 var response = await http.get(Uri.parse(url));
                                 Map<String, dynamic> jsonData =
                                     jsonDecode(response.body);
-                                jsonData["hits"].forEach((element) {
+                                jsonData['hits'].forEach((element) {
                                   RecipeModel recipeModel = new RecipeModel();
                                   recipeModel =
                                       RecipeModel.fromMap(element['recipe']);
@@ -165,8 +174,8 @@ class _SearchSreenState extends State<SearchSreen> {
           ),
 
           Positioned(
-            top: 20,
-            left: 20,
+            top: 16,
+            left: 16,
             child: CloseButton(
               onPressed: () => Navigator.of(context).pop(),
             ),

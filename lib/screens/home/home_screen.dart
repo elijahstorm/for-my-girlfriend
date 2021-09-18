@@ -11,10 +11,15 @@ import 'package:eunbeyol/screens/articles/data.dart';
 
 
 class HomeScreen extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+
     SizeConfig().init(context);
+
     return Scaffold(
+      key: _key,
       appBar: buildAppBar(context),
       body: Body(),
       drawer: LoveYouDrawer(),
@@ -25,18 +30,18 @@ class HomeScreen extends StatelessWidget {
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: SvgPicture.asset("assets/icons/menu.svg"),
+        icon: SvgPicture.asset('assets/icons/menu.svg'),
         onPressed: () {
-
+          _key.currentState!.openDrawer();
         },
       ),
       centerTitle: true,
-      title: Image.asset("assets/images/logo.png"),
+      title: Image.asset('assets/images/logo.png'),
       actions: <Widget>[
         Hero(
           tag: 'heroSearch',
           child: IconButton(
-            icon: SvgPicture.asset("assets/icons/search.svg"),
+            icon: SvgPicture.asset('assets/icons/search.svg'),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(

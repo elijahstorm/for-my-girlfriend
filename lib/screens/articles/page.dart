@@ -34,13 +34,11 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
 
   @override
   void initState() {
-    _scrollController;
-    _scrollController.addListener(_scrollListener);
     super.initState();
 
-    _headerHeight = _maxHeaderHeight;
+    _scrollController.addListener(_scrollListener);
 
-    String author = widget.article.author;
+    _headerHeight = _maxHeaderHeight;
 
     if (SchedulerBinding.instance == null) return;
 
@@ -74,10 +72,6 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
     _lastScrollExtent = thisScrollExtent;
   }
 
-  String _makeDateReadable(String fullDate) {
-    return fullDate.substring(0, 10).replaceAll('-', ' / ');
-  }
-
   Widget _buildHeader(BuildContext context) {
     return AnimatedContainer(
       duration: _animationDuration,
@@ -88,10 +82,16 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
           Positioned(
             right: 0,
             left: 0,
-            child: Image.network(
-              widget.article.image_link(0),
-              fit: BoxFit.cover,
-              semanticLabel: 'A background image of ',
+            child: Hero(
+              tag: widget.article.images[0],
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(0)),
+                child: Image.network(
+                  widget.article.images[0],
+                  fit: BoxFit.cover,
+                  semanticLabel: 'A background image of ',
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -132,9 +132,9 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
 
           SizedBox(height: 25),
 
-          Text(
-            _makeDateReadable(widget.article.date),
-          ),
+          // Text(
+          //   _makeDateReadable(widget.article.date),
+          // ),
           SizedBox(height: 60),
           DropCapText(
             content,
@@ -158,7 +158,7 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
   }
   Widget _buildImage(var content) {
     return Image.network(
-      widget.article.image_link(content)
+      widget.article.images[content],
     );
   }
   Widget _buildImageTextWrap(var content, var textWrap, bool leftWrap) {
@@ -177,7 +177,7 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
               leftWrap ? _articlePadding : 0, 0
             ),
             child: Image.network(
-              widget.article.image_link(content),
+              widget.article.images[content],
               fit: BoxFit.fitWidth,
             ),
           ),
@@ -233,9 +233,9 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
                   : Container(),
                 SizedBox(height: _articlePadding*2),
 
-                Text(
-                  _makeDateReadable(widget.article.date),
-                ),
+                // Text(
+                //   _makeDateReadable(widget.article.date),
+                // ),
                 SizedBox(height: _articlePadding*2),
               ],
             ),
@@ -245,6 +245,10 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
           skipNext = false;
           return Container();
         }
+
+        return Text(widget.article.body[index]['content']);
+
+
         if (widget.article.body[index]['type']==0) {
           return _buildText(widget.article.body[index]['content']);
         }
@@ -282,11 +286,11 @@ class _ArticleDisplayPageState extends State<ArticleDisplayPage> {
             child: Column(
               children: <Widget>[
                 _buildHeader(context),
+
                 _buildProgressBar(context),
+
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
-                    ),
                     height: MediaQuery.of(context).size.height - _headerHeight,
                     child: _buildArticle(),
                   ),

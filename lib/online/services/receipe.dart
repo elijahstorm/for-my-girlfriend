@@ -7,11 +7,11 @@ class Recipie {
 
   Future<void> getReceipe() async {
     String url =
-        "https://api.edamam.com/search?q=banana&app_id=0f21d949&app_key=c8daa8a855225d925157f8c7e093a014";
+        'https://api.edamam.com/search?q=banana&app_id=0f21d949&app_key=c8daa8a855225d925157f8c7e093a014';
     var response = await http.get(url);
 
     var jsonData = jsonDecode(response.body);
-    jsonData["hits"].forEach((element) {
+    jsonData['hits'].forEach((element) {
       Hits hits = Hits(
         recipeModel: element['recipe'],
       );

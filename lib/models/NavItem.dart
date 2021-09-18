@@ -24,24 +24,24 @@ class NavItems extends ChangeNotifier {
   List<NavItem> items = [
     NavItem(
       id: 1,
-      icon: "assets/icons/home.svg",
+      icon: 'assets/icons/home.svg',
       destination: HomeScreen(),
     ),
     NavItem(
       id: 2,
-      icon: "assets/icons/list.svg",
+      icon: 'assets/icons/list.svg',
     ),
     // NavItem(
     //   id: 3,
-    //   icon: "assets/icons/camera.svg",
+    //   icon: 'assets/icons/camera.svg',
     // ),
     // NavItem(
     //   id: 4,
-    //   icon: "assets/icons/chef_nav.svg",
+    //   icon: 'assets/icons/chef_nav.svg',
     // ),
     NavItem(
-      id: 3,
-      icon: "assets/icons/user.svg",
+      id: 5,
+      icon: 'assets/icons/user.svg',
       destination: ProfileScreen(),
     ),
   ];

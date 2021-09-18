@@ -8,9 +8,9 @@ class RecipeModel {
 
   factory RecipeModel.fromMap(Map<String, dynamic> parsedJson) {
     return RecipeModel(
-        image: parsedJson["image"],
-        url: parsedJson["url"],
-        source: parsedJson["source"],
-        label: parsedJson["label"]);
+        image: parsedJson['image'],
+        url: parsedJson['url'],
+        source: parsedJson['source'],
+        label: parsedJson['label']);
   }
 }

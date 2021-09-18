@@ -12,7 +12,7 @@ class Body extends StatelessWidget {
       child: Column(
         children: <Widget>[
           // Categories(),
-          SizedBox(height: 50),
+          SizedBox(height: 20),
           Expanded(
             child: Padding(
               padding:

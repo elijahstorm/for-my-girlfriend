@@ -49,14 +49,14 @@ class RecipeBundelCard extends StatelessWidget {
                     Spacer(),
                     buildInfoRow(
                       defaultSize,
-                      iconSrc: "assets/icons/pot.svg",
-                      text: "${recipeBundle!.recipes} Recipes",
+                      iconSrc: 'assets/icons/pot.svg',
+                      text: '${recipeBundle!.recipes} Recipes',
                     ),
                     SizedBox(height: defaultSize * 0.5), //5
                     buildInfoRow(
                       defaultSize,
-                      iconSrc: "assets/icons/chef.svg",
-                      text: "${recipeBundle!.chefs} Chefs",
+                      iconSrc: 'assets/icons/chef.svg',
+                      text: '${recipeBundle!.chefs} Chefs',
                     ),
                     Spacer(),
                   ],

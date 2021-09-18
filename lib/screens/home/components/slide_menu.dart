@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'love_you.dart';
+
 
 class LoveYouDrawer extends StatelessWidget {
 
@@ -26,59 +28,13 @@ class LoveYouDrawer extends StatelessWidget {
             ),
           ),
           DrawerListTile(
-            title: 'Dashboard',
-            svgSrc: 'assets/icons/menu_dashbord.svg',
+            title: 'Love you',
+            svgSrc: 'assets/icons/heart_fill.svg',
             press: () {
-              // stateIndex.value = 'Dashboard';
-            },
-          ),
-          DrawerListTile(
-            title: 'Performance',
-            svgSrc: 'assets/icons/menu_tran.svg',
-            press: () {
-              // stateIndex.value = 'Performance';
-            },
-          ),
-          DrawerListTile(
-            title: 'Training',
-            svgSrc: 'assets/icons/menu_task.svg',
-            press: () {
-              // stateIndex.value = 'Training';
-            },
-          ),
-          DrawerListTile(
-            title: 'Database',
-            svgSrc: 'assets/icons/menu_doc.svg',
-            press: () {
-              // stateIndex.value = 'Database';
-            },
-          ),
-          DrawerListTile(
-            title: 'Store',
-            svgSrc: 'assets/icons/menu_store.svg',
-            press: () {
-              // stateIndex.value = 'Store';
-            },
-          ),
-          DrawerListTile(
-            title: 'Notification',
-            svgSrc: 'assets/icons/menu_notification.svg',
-            press: () {
-              // stateIndex.value = 'Notification';
-            },
-          ),
-          DrawerListTile(
-            title: 'Profile',
-            svgSrc: 'assets/icons/menu_profile.svg',
-            press: () {
-              // stateIndex.value = 'Profile';
-            },
-          ),
-          DrawerListTile(
-            title: 'Settings',
-            svgSrc: 'assets/icons/menu_setting.svg',
-            press: () {
-              // stateIndex.value = 'Settings';
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => LoveYouPage(),
+                fullscreenDialog: true,
+              ));
             },
           ),
         ],

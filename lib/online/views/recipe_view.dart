@@ -26,7 +26,7 @@ class _RecipeViewState extends State<RecipeView> {
     super.initState();
     finalUrl = widget.postUrl;
     if(widget.postUrl.contains('http://')){
-      finalUrl = widget.postUrl.replaceAll("http://","https://");
+      finalUrl = widget.postUrl.replaceAll('http://','https://');
     }
 
   }
@@ -37,39 +37,6 @@ class _RecipeViewState extends State<RecipeView> {
       body: Container(
         child: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(top: Platform.isIOS? 60: 30, right: 24,left: 24,bottom: 16),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        const Color(0xff213A50),
-                        const Color(0xff071930)
-                      ],
-                      begin: FractionalOffset.topRight,
-                      end: FractionalOffset.bottomLeft)),
-              child:  Row(
-                mainAxisAlignment: kIsWeb
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "AppGuy",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontFamily: 'Overpass'),
-                  ),
-                  Text(
-                    "Recipes",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.blue,
-                        fontFamily: 'Overpass'),
-                  )
-                ],
-              ),
-            ),
             Container(
               height: MediaQuery.of(context).size.height - (Platform.isIOS ? 104 : 30),
               width: MediaQuery.of(context).size.width,

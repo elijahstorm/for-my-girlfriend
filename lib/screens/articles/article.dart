@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
-import 'page.dart';
+import 'package:eunbeyol/online/views/recipe_view.dart';
+
+// import 'page.dart';
 import 'data.dart';
 
 
@@ -24,39 +26,49 @@ class Article {
     this.topic = 'No Topic',
     this.extra_info = 'No info',
     this.short_intro = 'No Intro',
-    this.body = const [],
+    this.body = const ['l','l'],
     this.images = const [],
   });
 
-  String toString() => '${id},${cryptlink},${title}';
-
-
-  NetworkImage headline_image() {
-    return NetworkImage(images[0]);
-  }
-  String image_link(int index) {
-    if (index>=images.length) return  images[0];
-    return images[index];
-  }
-
 
   static Article json(var data) {
+    String shortIntro = '', author = '';
+
+    for (int i = 0; i < data['ingredientLines'].length; i++) {
+      if (data['ingredientLines'][i].length > 30)
+        shortIntro += '${data['ingredientLines'][i].substring(0, 25)}...\n';
+      else shortIntro += '${data['ingredientLines'][i]}\n';
+    }
+
+    int start_loc = data['url'].indexOf('//') + 2;
+
+    var _body = [];
+    for (int i = 0; i < data['ingredientLines'].length; i++) {
+      _body.add({
+        'type': 0,
+        'content': data['ingredientLines'][i],
+      });
+    }
+
     return Article(
       id: Article.index++,
       cryptlink: data['url'],
       title: data['label'],
       images: [data['image']],
+      short_intro: shortIntro,
+      author: data['url'].substring(start_loc, data['url'].indexOf('/', start_loc)),
+      topic: data['healthLabels'][0],
+      extra_info: data['ingredientLines'],
+      body: _body,
 
-      // topic: data['topic'],
-      // author: data['author'],
       // date: data['date'],
-      // body: data['body'],
-      // extra_info: data['extra_info'],
-      // short_intro: data['short_intro'],
     );
   }
 
-  ArticleDisplayPage navigateTo() {
-    return ArticleDisplayPage(this);
+  RecipeView navigateTo() {
+    return RecipeView(
+      postUrl: cryptlink,
+    );
+    // return ArticleDisplayPage(this);
   }
 }

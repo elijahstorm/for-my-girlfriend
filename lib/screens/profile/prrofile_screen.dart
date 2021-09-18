@@ -21,12 +21,12 @@ class ProfileScreen extends StatelessWidget {
       leading: SizedBox(),
       // On Android it's false by default
       centerTitle: true,
-      title: Text("Profile"),
+      title: Text('Profile'),
       actions: <Widget>[
         FlatButton(
           onPressed: () {},
           child: Text(
-            "Edit",
+            'Edit',
             style: TextStyle(
               color: Colors.white,
               fontSize: SizeConfig.defaultSize * 1.6, //16

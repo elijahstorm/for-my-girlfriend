@@ -12,6 +12,7 @@ class KoreanFoodScreenState extends State<KoreanFoodScreen> {
   ScrollController _scrollController = ScrollController();
   final REQUEST_AMOUNT = 10;
   final _scrollTargetDistanceFromBottom = 400.0;
+  final String title = '한국 맛집';
 
   @override
   void initState() {
@@ -65,27 +66,31 @@ class KoreanFoodScreenState extends State<KoreanFoodScreen> {
   }
 
   Widget listViewer(context, recipes, child) {
-
-    print('we are printing the list');
-    print('${recipes.list.length}');
-
     return ListView.builder(
       controller: _scrollController,
       itemCount: recipes.list.length + 1,
       itemBuilder: (context, index) {
+
         if (index < recipes.list.length) {
-          return ArticleCard(recipes.list[index]);
-        } else {
-          if (forceFailCurrentState) {
-            return ErrorCard('Make sure you are connected to the internet.');
-          }
-          return RowLoading();
+          return Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 20,
+            ),
+            child: ArticleCard(recipes.list[index]),
+          );
         }
+
+        if (forceFailCurrentState) {
+          return ErrorCard('Make sure you are connected to the internet.');
+        }
+
+        return RowLoading();
       },
     );
   }
 
-  Widget typeFilter(BuildContext context) => Provider<KoreanFood>(
+  Widget typeFilter(BuildContext context) => ChangeNotifierProvider<KoreanFood>(
     create: (_) => KoreanFood(),
     child: Consumer<KoreanFood>(
       builder: listViewer,
@@ -106,42 +111,47 @@ class KoreanFoodScreenState extends State<KoreanFoodScreen> {
           }
           return true;
         },
-        child: Stack(
+        child: Column(
           children: [
+
             Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 20,
-              ),
-              child: Column(
+              color: Color(0xFF90AF17),
+              height: 66,
+              child: Stack(
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 40,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '한국 맛집',
-                        style: TextStyle(
-                          fontSize: 20,
+                  Positioned(
+                    top: 16,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 100,
+                      ),
+                      child: Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
                   ),
 
-                  SizedBox(height: 14),
-
-                  typeFilter(context),
+                  Positioned(
+                    top: 16,
+                    left: 16,
+                    child: CloseButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ),
                 ],
               ),
             ),
 
-            Positioned(
-              top: 10,
-              left: 10,
-              child: CloseButton(
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 64,
+              child: typeFilter(context),
             ),
           ],
         ),
@@ -151,6 +161,7 @@ class KoreanFoodScreenState extends State<KoreanFoodScreen> {
 }
 
 class JapaneseFoodScreenState extends KoreanFoodScreenState {
+  @override final String title = '일본 맛집';
   @override
   Widget typeFilter(BuildContext context) => Provider<JapaneseFood>(
     create: (_) => JapaneseFood(),
@@ -160,6 +171,7 @@ class JapaneseFoodScreenState extends KoreanFoodScreenState {
   );
 }
 class ChineseFoodScreenState extends KoreanFoodScreenState {
+  @override final String title = '중국 맛집';
   @override
   Widget typeFilter(BuildContext context) => Provider<ChineseFood>(
     create: (_) => ChineseFood(),
@@ -169,6 +181,7 @@ class ChineseFoodScreenState extends KoreanFoodScreenState {
   );
 }
 class AmericanFoodScreenState extends KoreanFoodScreenState {
+  @override final String title = '미국 맛집';
   @override
   Widget typeFilter(BuildContext context) => Provider<AmericanFood>(
     create: (_) => AmericanFood(),
