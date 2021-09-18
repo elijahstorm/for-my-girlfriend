@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:eunbeyol/models/RecipeBundel.dart';
 import 'package:eunbeyol/size_config.dart';
 
-import 'categories.dart';
+// import 'categories.dart';
 import 'recipe_bundel_card.dart';
 
 class Body extends StatelessWidget {
@@ -11,7 +11,8 @@ class Body extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: <Widget>[
-          Categories(),
+          // Categories(),
+          SizedBox(height: 50),
           Expanded(
             child: Padding(
               padding:
@@ -30,7 +31,9 @@ class Body extends StatelessWidget {
                 ),
                 itemBuilder: (context, index) => RecipeBundelCard(
                   recipeBundle: recipeBundles[index],
-                  press: () {},
+                  press: () {
+                    Navigator.pushNamed(context, recipeBundles[index].destination);
+                  },
                 ),
               ),
             ),

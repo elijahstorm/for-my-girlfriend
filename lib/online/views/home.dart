@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:eunbeyol/online/models/recipe_model.dart';
 import 'package:eunbeyol/online/views/recipe_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 
 class SearchSreen extends StatefulWidget {
   @override
@@ -29,66 +31,24 @@ class _SearchSreenState extends State<SearchSreen> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                  const Color(0xff213A50),
-                  const Color(0xff071930)
-                ],
-                    begin: FractionalOffset.topRight,
-                    end: FractionalOffset.bottomLeft)),
-          ),
+
           SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(vertical: !kIsWeb ? Platform.isIOS? 60: 30 : 30, horizontal: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: kIsWeb
-                        ? MainAxisAlignment.start
-                        : MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "AppGuy",
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        '요리법',
                         style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontFamily: 'Overpass'),
+                          fontSize: 24,
+                        ),
                       ),
-                      Text(
-                        "Recipes",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.blue,
-                            fontFamily: 'Overpass'),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 60,
-                  ),
-                  Text(
-                    "What will you cook today?",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: 'Overpass'),
-                  ),
-                  Text(
-                    "Just Enter Ingredients you have and we will show the best recipe for you",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'OverpassRegular'),
-                  ),
-                  SizedBox(
-                    height: 40,
+                    ),
                   ),
                   Container(
                     child: Row(
@@ -98,27 +58,27 @@ class _SearchSreenState extends State<SearchSreen> {
                             controller: textEditingController,
                             style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.white,
-                                fontFamily: 'Overpass'),
+                                // color: Colors.white,
+                              ),
                             decoration: InputDecoration(
-                              hintText: "Enter Ingridients",
+                              hintText: '재료 입력하세요',
                               hintStyle: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white.withOpacity(0.5),
-                                  fontFamily: 'Overpass'),
+                                  // color: Colors.white.withOpacity(0.5),
+                                ),
                               enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: const Color(0xFF90AF17)),
                               ),
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: const Color(0xFF90AF17)),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        InkWell(
+                        SizedBox(width: 16),
+                        Hero(
+                          tag: 'heroSearch',
+                          child: InkWell(
                             onTap: () async {
                               if (textEditingController.text.isNotEmpty) {
                                 setState(() {
@@ -149,8 +109,8 @@ class _SearchSreenState extends State<SearchSreen> {
                                 borderRadius: BorderRadius.circular(8),
                                   gradient: LinearGradient(
                                       colors: [
-                                    const Color(0xffA2834D),
-                                    const Color(0xffBC9A5F)
+                                    const Color(0xFF90AF17),
+                                    const Color(0xFF90AF17),
                                   ],
                                       begin: FractionalOffset.topRight,
                                       end: FractionalOffset.bottomLeft)),
@@ -161,18 +121,28 @@ class _SearchSreenState extends State<SearchSreen> {
                                   Icon(
                                     Icons.search,
                                     size: 18,
-                                      color: Colors.white
                                   ),
                                 ],
                               ),
-                            )),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
+                  SizedBox(height: 30),
+
+                  if (_loading)
+                    Container(
+                      child: Center(
+                        child: SpinKitDancingSquare(
+                          color: Theme.of(context).accentColor,
+                          size: 50.0,
+                        ),
+                      ),
+                    ),
+
+                  if (!_loading) Container(
                     child: GridView(
                         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                             mainAxisSpacing: 10.0, maxCrossAxisExtent: 200.0),
@@ -192,12 +162,22 @@ class _SearchSreenState extends State<SearchSreen> {
                 ],
               ),
             ),
-          )
+          ),
+
+          Positioned(
+            top: 20,
+            left: 20,
+            child: CloseButton(
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
         ],
       ),
     );
   }
 }
+
+
 
 class RecipieTile extends StatefulWidget {
   final String title, desc, imgUrl, url;
@@ -262,14 +242,14 @@ class _RecipieTileState extends State<RecipieTile> {
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.black54,
-                              fontFamily: 'Overpass'),
+                            ),
                         ),
                         Text(
                           widget.desc,
                           style: TextStyle(
                               fontSize: 10,
                               color: Colors.black54,
-                              fontFamily: 'OverpassRegular'),
+                            ),
                         )
                       ],
                     ),

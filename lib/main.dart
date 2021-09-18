@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:eunbeyol/constants.dart';
 import 'package:eunbeyol/models/NavItem.dart';
 import 'package:eunbeyol/screens/home/home_screen.dart';
+import 'package:eunbeyol/screens/articles/routes.dart';
+import 'package:eunbeyol/screens/articles/data.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -24,6 +27,14 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(color: Colors.white, elevation: 0),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => HomeScreen(),
+          KoreanFoodScreen.routeName: (context) => KoreanFoodScreen(),
+          AmericanFoodScreen.routeName: (context) => AmericanFoodScreen(),
+          JapaneseFoodScreen.routeName: (context) => JapaneseFoodScreen(),
+          ChineseFoodScreen.routeName: (context) => ChineseFoodScreen(),
+        },
         home: HomeScreen(),
       ),
     );
